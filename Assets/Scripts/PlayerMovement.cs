@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 	
     public GameObject spriteObject;
+    public Tilemap collisionMap;
 	public float speed = 3f;
 	public Animator animator;
     public Sprite northSprite;
@@ -78,6 +80,11 @@ public class PlayerMovement : MonoBehaviour {
         t = 0;
 
         endPos = new Vector3(startPos.x + System.Math.Sign(input.x), startPos.y + System.Math.Sign(input.y), startPos.z);
+
+        if (collisionMap.HasTile(collisionMap.WorldToCell(endPos)))
+        {
+            endPos = startPos;
+        }
 
         while (t < 1f)
         {
