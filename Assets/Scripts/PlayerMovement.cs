@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject spriteObject;
     public Tilemap collisionMap;
 	public float speed = 3f;
-	public Animator animator;
     public Sprite northSprite;
     public Sprite eastSprite;
     public Sprite southSprite;
