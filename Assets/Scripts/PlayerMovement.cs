@@ -19,6 +19,21 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 endPos;
     float t;
 
+    public Vector3 GetForwardPos()
+    {
+        switch (currentDir)
+        {
+            case Direction.North:
+                return transform.position + new Vector3(0, 1, 0);
+            case Direction.East:
+                return transform.position + new Vector3(1, 0, 0);
+            case Direction.South:
+                return transform.position + new Vector3(0, -1, 0);
+            default: // Direction West
+                return transform.position + new Vector3(-1, 0, 0);  
+        }
+    }
+
     void Update()
     {
         if (!isMoving)
