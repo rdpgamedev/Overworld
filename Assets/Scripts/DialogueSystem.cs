@@ -66,6 +66,16 @@ public class DialogueSystem : MonoBehaviour
         LoadLine(lineNum++);
     }
 
+    public void LoadDialogue(Dialogue dialogue)
+    {
+        speakerPanel.SetActive(true);
+        linePanel.SetActive(true);
+        PlayerInteraction.instance.enabled = false;
+
+        this.speakers = dialogue.GetSpeakers();
+        this.lines = dialogue.GetLines();
+    }
+
     public void LoadLine(int lineNum)
     {
         speaker.text = speakers[lineNum];
