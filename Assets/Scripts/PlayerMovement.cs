@@ -4,6 +4,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 	
+    public Animator animator;
     public GameObject spriteObject;
     public Tilemap collisionMap;
 	public float speed = 3f;
@@ -84,6 +85,10 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 StartCoroutine(Move(transform));
             }
+            else
+            {
+                animator.SetInteger("XVel", 0);
+            }
         }
     }
 
@@ -94,6 +99,7 @@ public class PlayerMovement : MonoBehaviour {
         t = 0;
 
         endPos = new Vector3(startPos.x + System.Math.Sign(input.x), startPos.y + System.Math.Sign(input.y), startPos.z);
+        animator.SetInteger("XVel", System.Math.Sign(input.x));
 
         if (collisionMap.HasTile(collisionMap.WorldToCell(endPos)))
         {
