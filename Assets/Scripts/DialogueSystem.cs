@@ -85,9 +85,7 @@ public class DialogueSystem : MonoBehaviour
         PlayerInteraction.instance.enabled = false;
         PlayerMovement.instance.enabled = false;
 
-        currentLine = dialogue.First();
-
-        LoadLine(currentLine);
+        LoadLine(dialogue.First());
     }
 
     public void LoadLine(int lineNum)
@@ -140,15 +138,15 @@ public class DialogueSystem : MonoBehaviour
             line.text = "";
             yield return 0;
         }
-        
+
         float charCount = 0;
         speed = setSpeed;
         inputReady = false;
 
         while (charCount < text.Length)
         {
-            charCount += Time.deltaTime * speed;
             line.text = text.Substring(0, (int)charCount);
+            charCount += Time.deltaTime * speed;
             yield return null;
         }
 
