@@ -135,6 +135,12 @@ public class DialogueSystem : MonoBehaviour
 
     public IEnumerator LoadText(string text)
     {
+        if (text == null || text == "") 
+        {
+            line.text = "";
+            yield return 0;
+        }
+        
         float charCount = 0;
         speed = setSpeed;
         inputReady = false;
@@ -146,6 +152,7 @@ public class DialogueSystem : MonoBehaviour
             yield return null;
         }
 
+        line.text = text;
         inputReady = true;
         yield return 0;
     }
