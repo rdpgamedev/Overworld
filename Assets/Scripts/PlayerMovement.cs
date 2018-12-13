@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 	
+    public static PlayerMovement instance;
+
     public Animator animator;
     public GameObject spriteObject;
     public Tilemap collisionMap;
@@ -33,6 +35,11 @@ public class PlayerMovement : MonoBehaviour {
             default: // Direction West
                 return transform.position + new Vector3(-1, 0, 0);  
         }
+    }
+
+    void Awake()
+    {
+        instance = this;
     }
 
     void Update()
