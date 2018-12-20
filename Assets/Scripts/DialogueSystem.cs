@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DialogueSystem : MonoBehaviour 
@@ -10,6 +11,9 @@ public class DialogueSystem : MonoBehaviour
     public GameObject speakerPanel;
     public GameObject linePanel;
     public GameObject responsePanel;
+    public GameObject responsesObject;
+
+    public GameObject responsePrefab;
 
     public float setSpeed = 10f;
 
@@ -25,6 +29,8 @@ public class DialogueSystem : MonoBehaviour
     DialogueLine currentLine;
 
     bool inputReady = false;
+    bool choosingResponse = false;
+    bool removedResponses = false;
 
     void Awake ()
     {
@@ -37,7 +43,7 @@ public class DialogueSystem : MonoBehaviour
     {
         if (PlayerInteraction.instance.enabled == false)
         {
-            if (inputReady)
+            if (inputReady && !choosingResponse)
             {
                 if (Input.GetButtonDown("confirm"))
                 {
@@ -54,7 +60,7 @@ public class DialogueSystem : MonoBehaviour
                     }
                 }
             }
-            else
+            else if (!inputReady && !removedResponses)
             {
                 if (Input.GetButtonDown("confirm"))
                 {
@@ -62,6 +68,9 @@ public class DialogueSystem : MonoBehaviour
                 }
             }
         }
+
+        if (removedResponses)
+            removedResponses = false;
     }
 
     public void LoadDialogue(string[] speakers, string[] lines)
@@ -115,33 +124,24 @@ public class DialogueSystem : MonoBehaviour
         }
         
         // Load Line
+        // Sets responses at completion of coroutine
         StartCoroutine(LoadText(line.Line));
-
-        // Load Responses
-        DialogueResponse[] responses = line.Responses;
-        if (responses != null)
-        {
-            responsePanel.SetActive(true);
-        }
-        else
-        {
-            responsePanel.SetActive(false);
-        }
 
         // Apply Flag
     }
 
     public IEnumerator LoadText(string text)
     {
-        if (text == null || text == "") 
+        if (text == null) 
         {
-            line.text = "";
-            yield return 0;
+            text = "";
         }
 
         float charCount = 0;
         speed = setSpeed;
         inputReady = false;
+
+        SetResponses(currentLine.Responses);
 
         while (charCount < text.Length)
         {
@@ -151,8 +151,44 @@ public class DialogueSystem : MonoBehaviour
         }
 
         line.text = text;
-        inputReady = true;
+
+        if (currentLine.Responses != null && currentLine.Responses.Length > 0)
+        {
+            responsePanel.SetActive(true);
+            currentLine.Responses[0].gameObject.GetComponent<Button>().Select();
+            choosingResponse = true;
+        }
+        else
+        {
+            inputReady = true;
+        }
+
         yield return 0;
+    }
+
+    public void SetResponses(DialogueResponse[] responses)
+    {
+        if (responses == null || responses.Length == 0)
+        {
+            choosingResponse = false;
+            removedResponses = true;
+            foreach (Transform childTransform in responsesObject.transform)
+            {
+                Object.Destroy(childTransform.gameObject);
+            }
+            responsePanel.SetActive(false);
+            return;
+        }
+
+        float RESPONSE_MARGIN = 30f;
+        
+        Vector3 oldPos = responsesObject.transform.position;
+        foreach (var response in responses)
+        {
+            response.transform.SetParent(responsesObject.transform);
+            response.transform.position = oldPos + Vector3.down * RESPONSE_MARGIN;
+            oldPos = response.transform.position;
+        }
     }
 
     public void UnloadDialogue()

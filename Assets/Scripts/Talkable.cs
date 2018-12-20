@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Talkable : Interactable 
@@ -16,17 +17,17 @@ public class Talkable : Interactable
     public override void Interact()
     {
         //DialogueSystem.instance.LoadDialogue(speakers, lines);
-        Dialogue dialogue = new Dialogue();
+        Dialogue dialogue = new Dialogue("thisIsAPath");
 
-        DialogueLine prevLine = null;
-        for (int i = 0; i < speakers.Length; ++i)
-        {
-            DialogueLine line = new DialogueLine(speakers[i], lines[i]);
-            if (prevLine != null) prevLine.NextLine = line;
+        // DialogueLine prevLine = null;
+        // for (int i = 0; i < speakers.Length; ++i)
+        // {
+        //     DialogueLine line = new DialogueLine(speakers[i], lines[i]);
+        //     if (prevLine != null) prevLine.NextLine = line;
 
-            dialogue.AddLine(line);
-            prevLine = line;
-        }
+        //     dialogue.AddLine(line);
+        //     prevLine = line;
+        // }
         
         DialogueSystem.instance.LoadDialogue(dialogue);
     }
