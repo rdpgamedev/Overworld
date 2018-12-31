@@ -1,0 +1,60 @@
+{
+    "Dialogue":
+    {
+        "Lines":
+        [
+            {
+                "id": 0,
+                "Speaker": "Professor", 
+                "Line": "I am the professor.",
+                "NextLine": 1,
+                "Flag": "",
+                "Responses": []
+            },
+            {
+                "id": 1,
+                "Speaker": "Professor",
+                "Line": "Are you a $ or a &?",
+                "NextLine": "",
+                "Flag": "",
+                "Responses":
+                [
+                    { "Response": "I am a $.", "NextLine": 3, "Flag": "$" },
+                    { "Response": "I am a &, man.", "NextLine": 4, "Flag": "&" }
+                ]
+            },
+            {
+                "id": 2,
+                "Speaker": "Professor", 
+                "Line": "This shouldn't be read. Stop it.",
+                "NextLine": 5,
+                "Flag": "",
+                "Responses": [] 
+            },
+            {
+                "id": 3,
+                "Speaker": "Professor", 
+                "Line": "Oh, a $ huh? Weird.",
+                "NextLine": 5,
+                "Flag": "",
+                "Responses": []
+            },
+            {
+                "id": 4,
+                "Speaker": "Professor", 
+                "Line": "Oh, a & huh? Odd.",
+                "NextLine": 1,
+                "Flag": "",
+                "Responses": []
+            },
+            {
+                "id": 0,
+                "Speaker": "Professor", 
+                "Line": "Thank you for answering that.",
+                "NextLine": "",
+                "Flag": "",
+                "Responses": []
+            }
+        ]
+    }
+}

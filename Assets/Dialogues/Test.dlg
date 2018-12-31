@@ -1,0 +1,15 @@
+Dialogue Custom Format
+
+[0] "Professor": "I am the professor." [1]
+
+[1] "Professor": "Are you a $ or a &?"
+    "I am a $." <$> [3]
+    "I am a &, man." <&> [4]
+
+[2] "Professor": "This shouldn't be read. Stop it." [5]
+
+[3] "Professor": "Oh, a $ huh? Weird." [5]
+
+[4] "Professor": "Oh, a & huh? Odd." [5]
+
+[5] "Professor": "Thank you for answering that." <genderAssigned> []
