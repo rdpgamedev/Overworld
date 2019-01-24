@@ -1,15 +1,22 @@
-Dialogue Custom Format
+Dialogue Custom Format Example
 
-[0] "Professor": "I am the professor." [1]
+[0] "Professor": "I am the professor." [2]:<superSecretFlag> [1]
 
 [1] "Professor": "Are you a $ or a &?"
     "I am a $." <$> [3]
     "I am a &, man." <&> [4]
 
-[2] "Professor": "This shouldn't be read. Stop it." [5]
+[2] "Professor": "This shouldn't be read unless you have the super secret flag." [5]
 
-[3] "Professor": "Oh, a $ huh? Weird." [5]
+[3] "Professor": "Oh, a $ huh? Weird." <gender$> [5]
 
-[4] "Professor": "Oh, a & huh? Odd." [5]
+[4] "Professor": "Oh, a & huh? Odd." <gender&> [5]
 
 [5] "Professor": "Thank you for answering that." <genderAssigned> []
+
+[REPEAT] [r$]:<gender$> [r&]
+
+[r$] "Professor": "Oh, hello again little $." [5]
+
+[r&] "Professor": "Oh, hello again little &." [5]
+
