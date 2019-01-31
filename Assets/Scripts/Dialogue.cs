@@ -112,42 +112,97 @@ public class Dialogue {
         // A line with multiple default next lines will randomly choose from them.
         //
 
-        // Placeholder dialogue creation to test response stuff
-        string speaker = "Professor";
-        string[] lineText = 
+        // Load file into list of lines
+        List<string> fileLines = new List<string>();
+        using (StreamReader reader = new StreamReader(path))
         {
-            "I am the professor.", 
-            "Are you a $ or a &?", 
-            "This shouldn't be read. Stop it.", 
-            "Oh, a $ huh? Weird.", 
-            "Oh, a & huh? Odd.",
-            "Thank you for answering that."
-        };
-
-        DialogueLine prevLine = null;
-        for (int i = 0; i < lineText.Length; ++i)
-        {
-            DialogueLine line = new DialogueLine(speaker, lineText[i]);            
-            if (prevLine != null) prevLine.NextLine = line;
-
-            AddLine(line);
-            prevLine = line;
+            string newLine;
+            while ((newLine = reader.ReadLine()) != null)
+            {
+                fileLines.Add(newLine);
+            }
         }
 
-        // Tweak lines
-        lines[3].NextLine = lines[5];
+        // Split file lines into line groups
+        List<List<string>> lineGroups = new List<List<string>>();
+        lineGroups.Add(new List<string>());
+        int g = 0;
+        foreach (string currentString in fileLines)
+        {
+            if (currentString.Trim() == String.Empty)
+            {
+                if (lineGroups[g].Count > 0) 
+                {
+                    ++g;
+                    lineGroups.Add(new List<string>());
+                    break;
+                }
+            }
+            else
+            {
+                lineGroups[g].Add(currentString);
+            }
+        }
 
-        // Populate responses
-        DialogueResponse[] responses = new DialogueResponse[2];
+        // Process each group and populate Dialogue object
+        foreach (List<string> group in lineGroups)
+        {
+            if (group.Count == 1) // Dialogue Line
+            {
+                processLine(group[0]);
+            }
+            else if (group.Count > 1) // Dialogue Choice
+            {
+                processChoice(group);
+            }
+        }
 
-        GameObject responsePrefab = DialogueSystem.instance.responsePrefab;
+        // // Placeholder dialogue creation to test response stuff
+        // string speaker = "Professor";
+        // string[] lineText = 
+        // {
+        //     "I am the professor.", 
+        //     "Are you a $ or a &?", 
+        //     "This shouldn't be read. Stop it.", 
+        //     "Oh, a $ huh? Weird.", 
+        //     "Oh, a & huh? Odd.",
+        //     "Thank you for answering that."
+        // };
 
-        responses[0] = UnityEngine.Object.Instantiate(responsePrefab).GetComponent<DialogueResponse>();
-        responses[0].CreateResponse("I am a $.", lines[3]);
+        // DialogueLine prevLine = null;
+        // for (int i = 0; i < lineText.Length; ++i)
+        // {
+        //     DialogueLine line = new DialogueLine(speaker, lineText[i]);            
+        //     if (prevLine != null) prevLine.NextLine = line;
+
+        //     AddLine(line);
+        //     prevLine = line;
+        // }
+
+        // // Tweak lines
+        // lines[3].NextLine = lines[5];
+
+        // // Populate responses
+        // DialogueResponse[] responses = new DialogueResponse[2];
+
+        // GameObject responsePrefab = DialogueSystem.instance.responsePrefab;
+
+        // responses[0] = UnityEngine.Object.Instantiate(responsePrefab).GetComponent<DialogueResponse>();
+        // responses[0].CreateResponse("I am a $.", lines[3]);
         
-        responses[1] = UnityEngine.Object.Instantiate(responsePrefab).GetComponent<DialogueResponse>();
-        responses[1].CreateResponse("I am a &, man.", lines[4]);
+        // responses[1] = UnityEngine.Object.Instantiate(responsePrefab).GetComponent<DialogueResponse>();
+        // responses[1].CreateResponse("I am a &, man.", lines[4]);
 
-        lines[1].Responses = responses;
+        // lines[1].Responses = responses;
+    }
+
+    private void processLine(string line)
+    {
+
+    }
+
+    private void processChoice(List<string> choiceLines)
+    {
+
     }
 }
