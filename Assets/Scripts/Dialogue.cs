@@ -129,18 +129,30 @@ public class Dialogue {
         int g = 0;
         foreach (string currentString in fileLines)
         {
-            if (currentString.Trim() == String.Empty)
+            string trimmedString = currentString;
+
+            // Remove comments
+            int commentIndex;
+            if ((commentIndex = trimmedString.IndexOf("//")) >= 0)
             {
-                if (lineGroups[g].Count > 0) 
+                trimmedString = trimmedString.Substring(0, commentIndex);
+            }
+
+            // Trim whitespace
+            trimmedString = trimmedString.Trim();
+
+            if (trimmedString == String.Empty) // New line group is next or in a commented line
+            {
+                if (lineGroups[g].Count > 0)  // If current linegroup has lines, then it's finished
                 {
                     ++g;
                     lineGroups.Add(new List<string>());
                     break;
                 }
             }
-            else
+            else // Reading current line group
             {
-                lineGroups[g].Add(currentString);
+                lineGroups[g].Add(trimmedString);
             }
         }
 
