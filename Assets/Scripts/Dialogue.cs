@@ -210,7 +210,84 @@ public class Dialogue {
 
     private void processLine(string line)
     {
+        // Split line by white space
+        string[] splitParts = line.Split(' ');
+        List<string> lineParts = new List<string>();
+        foreach (string part in splitParts)
+        {
+            if (part != String.Empty)
+            {
+                lineParts.Add(part);
+            }
+        }
 
+        // Read label
+        string label = lineParts[0];
+        if (label.StartsWith("[") && label.EndsWith("]")) // Good label
+        {
+            label = label.Substring(1, (label.Length - 2)).Trim();
+
+            lineParts.RemoveAt(0);
+        }
+        else // No label or invalid label
+        {
+            Debug.Log("The following line does not have a valid label. \n" + line);
+            return;
+        }
+
+        // Read speaker
+        string speaker = lineParts[0];
+        if (speaker.StartsWith("\"") && speaker.EndsWith("\":")) // Good speaker
+        {
+            speaker = speaker.Substring(1, (speaker.Length - 2));
+
+            lineParts.RemoveAt(0);
+        }
+        else // No speaker or invalid speaker
+        {
+            Debug.Log("The following line does not have a valid speaker. \n" + line);
+            return;
+        }
+
+        // Read dialogue line
+        string dialogueLine = lineParts[0];
+        if (dialogueLine.StartsWith("\"") && dialogueLine.EndsWith("\"")) // Good dialogue line
+        {
+            dialogueLine = dialogueLine.Substring(1, (dialogueLine.Length - 2));
+
+            lineParts.RemoveAt(0);
+        }
+        else // No line or invalid line
+        {
+            Debug.Log("The following line does not have a valid dialogue line. \n" + line);
+            return;
+        }
+
+        // Read flags to modify
+        string flags = lineParts[0];
+        if(flags.StartsWith("<") && flags.EndsWith(">"))
+        {
+            flags = flags.Substring(1, (flags.Length - 2)); // Strip the surrounding <>
+
+            // Split flags by ','
+            string[] flagList = flags.Split(',');
+            foreach (string flag in flagList)
+            {
+                // Apply flag
+                string flagKey = flag.Trim();
+
+                // ADD FLAG TO CHARACTER
+                Debug.Log("TODO: ADD FLAG TO CHARACTER IN PROCESSLINE()");
+            }
+
+            lineParts.RemoveAt(0);
+        }
+
+        // Read next lines until default
+        foreach (string nextLine in lineParts)
+        {
+
+        }
     }
 
     private void processChoice(List<string> choiceLines)

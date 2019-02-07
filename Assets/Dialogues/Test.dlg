@@ -10,7 +10,9 @@ Dialogue Custom Format Example
 
 [3] "Professor": "Oh, a $ huh? Weird." <gender$> [5]
 
-[4] "Professor": "Oh, a & huh? Odd." <gender&> [5]
+// This line is a comment and will not affect the loading of this dialogue
+
+[4] "Professor": "Oh, a & huh? Odd." <gender&> [5] // This is also a comment and will not be read after the //
 
 [5] "Professor": "Thank you for answering that." <genderAssigned> []
 
